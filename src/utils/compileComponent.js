@@ -4,15 +4,13 @@ import normalizeComponent from 'vue-loader/lib/runtime/componentNormalizer'
 import transpile from 'vue-template-es2015-compiler'
 import hash from 'hash-sum'
 
-export default function (filePath, templateStr) {
+export default function (filePath, templateStr, isComplieWebComponent) {
   // 拆分组件
   const descriptor = parseComponent(templateStr, { pad: 'line' })
 
   // vue-loader  module id for scoped CSS
   const shortFilePath = filePath
   const id = hash(shortFilePath)
-
-  const isComplieWebComponent = false // 是否编译为 webComponent
 
   const hasScoped = descriptor.styles.some(s => s.scoped)
   const hasFunctional = descriptor.template && descriptor.template.attrs.functional

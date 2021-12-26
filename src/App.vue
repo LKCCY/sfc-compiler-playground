@@ -14,6 +14,8 @@ import Vue from 'vue'
 import PageLayout from './components/page-layout.vue'
 import CodeManage from './components/code-manage.vue'
 import compileComponent from './utils/compileComponent'
+import wrap from './vue-wrap-component'
+
 export default {
   components: {
     CodeManage,
@@ -21,17 +23,26 @@ export default {
   },
   data () {
     return {
-      tempVm: null
+      isComplieWebComponent: true
     }
   },
   methods: {
-    onCodeFresh ({ code }) {
-      const _options = compileComponent('src/App.vue', code)
+    onCodeFresh ({ code, uid }) {
+      const _options = compileComponent('src/App.vue', code, this.isComplieWebComponent)
       const _func = Vue.extend(_options.exports)
-      this.tempVm = new _func()
-      this.mountComponent()
+      this.isComplieWebComponent ? this.mountWebComponent(uid, _options.exports) : this.mountComponent(new _func())
     },
-    mountComponent () {
+    mountWebComponent (uid, componentExports) {
+      const _componentName = `p-${uid}`
+      window.customElements.define(_componentName, wrap(Vue, componentExports))
+      const el = document.getElementById('showArea')
+      while (el.firstChild) {
+        el.removeChild(el.firstChild)
+      }
+      el.innerHTML = `<${_componentName}/>`
+      // el.appendChild(_componentName)
+    },
+    mountComponent (vm) {
       const el = document.getElementById('showArea')
       while (el.firstChild) {
         el.removeChild(el.firstChild)
@@ -39,7 +50,7 @@ export default {
       const _place = document.createElement('div')
       el.appendChild(_place)
       this.$nextTick(() => {
-        this.tempVm.$mount(_place)
+        vm.$mount(_place)
       })
     }
   }
