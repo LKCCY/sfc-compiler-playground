@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'side-color': '#5e5a5a',
         'bg-color': '#151515', // 背景颜色
         'bd-color': '#343434'
       }

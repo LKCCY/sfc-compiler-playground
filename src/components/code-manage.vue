@@ -47,8 +47,9 @@ export default {
 
 <style>
 .code-manage {
+  overflow-y:auto;
   .CodeMirror {
-    height: 100%;
+    height: calc(100vh - 60px);
   }
 }
 </style>

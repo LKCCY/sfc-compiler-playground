@@ -2,9 +2,12 @@
   <page-layout>
     <section class="container flex min-h-full">
       <section class="flex-1 border-r-2 border-bd-color">
-        <code-manage @freshCode="onCodeFresh" />
+        <code-manage @freshCode="onCodeFresh" ref="codeManage"/>
       </section>
       <section class="flex-1" id="showArea"></section>
+      <div class="fixed flex bottom-0 left-0 h-[30px] w-full bg-[#53a0cf] z-50 justify-end pr-5">
+        <span @click="onChangeMode" class="text-white text-sm leading-[30px] cursor-pointer">编译模式：{{ isComplieWebComponent ? 'web-component' : 'vue-component' }}</span>
+      </div>
     </section>
   </page-layout>
 </template>
@@ -52,6 +55,10 @@ export default {
       this.$nextTick(() => {
         vm.$mount(_place)
       })
+    },
+    onChangeMode () {
+      this.isComplieWebComponent = !this.isComplieWebComponent
+      this.$refs.codeManage.freshCode()
     }
   }
 }

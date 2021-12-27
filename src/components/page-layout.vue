@@ -7,7 +7,7 @@
           <slot></slot>
         </keep-alive>
       </section>
-      <div class="side-menu w-[56px] border-l-2 border-bd-color"></div>
+      <div class="side-menu w-[56px] bg-side-color"></div>
     </main>
   </section>
 </template>
